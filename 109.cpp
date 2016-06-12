@@ -51,7 +51,7 @@ double getArea(vp dat)
 	{
 		determinant +=((dat[i].x * dat[(i+1)%sz].y) - (dat[i].y * dat[(i+1)%sz].x));
 	}
-	return determinant*0.5;
+	return fab(determinant)*0.5;
 }
 
 double isLeft(pii p, pii q, pii r)
