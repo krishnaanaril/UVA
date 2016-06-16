@@ -29,7 +29,8 @@ typedef struct circle
 }circle;
 vector<circle> dat;
 circle tmp;
-int dp[1000][1000];
+int dp[1000][1000], n;
+bitset<1000> isVisited;
 
 double dist(circle a, circle b)
 {
@@ -42,5 +43,65 @@ double dist(circle a, circle b)
 int main()
 {
     FASTIO
+    while(cin>>n)
+    {
+        if(n==-1)
+            break;
+        dat.clear();
+        memset(dp, 0, sizeof(dp));
+        isVisited.reset();
+        REP(i, n)
+        {
+            cin>>tmp.x>>tmp.y>>tmp.r;
+            dat.pb(tmp);
+        }
+        REP(i, n)
+        {
+            REP(j, n)
+            {
+                if(i==j)
+                    continue;
+                double tmpDist = dist(dat[i], dat[j]);
+                if(tmpDist < (dat[i].r+dat[j].r) && tmpDist > fabs(dat[i].r - dat[j].r))
+                    dp[i][j] = 1;
+            }
+        }
+        /*REP(i, n)
+        {
+            REP(j, n)
+                cout<<dp[i][j]<<" ";
+            cout<<endl;
+        }*/
+        int ans = 0;
+        REP(i, n)
+        {
+            if(!isVisited[i])
+            {
+                isVisited[i] = 1;
+                int cnt = 1;
+                queue<int> q;
+                q.push(i);
+                while(!q.empty())
+                {
+                    int curr = q.front();
+                    q.pop();                    
+                    REP(j, n)
+                    {
+                        if(dp[curr][j] && !isVisited[j])
+                        {
+                            cnt++;
+                            isVisited[j] = 1;
+                            q.push(j);
+                        }
+                    }
+                }
+                ans = max(ans, cnt);
+            }
+        }
+        if(ans==1)
+            cout<<"The largest component contains 1 ring."<<endl;
+        else
+            cout<<"The largest component contains "<<ans<<" rings."<<endl;
+    }
     return 0;
 }
