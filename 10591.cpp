@@ -24,9 +24,50 @@ typedef pair<ll,ll> pl;
 #define sendl           " \n"
 
 const int mod = 1000000007;
+ll n, ca;
+
+ll getSumSquare(ll n)
+{
+    ll t = n, res = 0;
+    while(t)
+    {
+        int k = t%10;
+        res += k*k;
+        t/=10;
+    }
+    return res;
+}
+
+bool solve(ll n)
+{
+    map<int, int> mp;
+    ll t = n;
+    mp[t]++;
+    while(true)
+    {
+        t = getSumSquare(t);
+        if(t==1)
+            return true;
+        if(mp[t]!=0)
+            return false;        
+        mp[t]++;
+    }
+}
 
 int main()
 {
     FASTIO
+    int t;    
+    cin>>t;
+    while(t--)
+    {
+        ca++;
+        cin>>n;
+        cout<<"Case #"<<ca<<": ";
+        if(solve(n))
+            cout<<n<<" is a Happy number."<<endl;
+        else
+            cout<<n<<" is an Unhappy number."<<endl;
+    }
     return 0;
 }

@@ -25,8 +25,35 @@ typedef pair<ll,ll> pl;
 
 const int mod = 1000000007;
 
+
+ll fi(ll n)
+{
+    ll res = n;
+    for(ll i=2; i*i<=n; i++)
+    {
+        if(n%i==0)
+            res -= res/i;
+        while(n%i==0)
+            n/=i;
+    }
+    if(n>1)
+        res-=res/n;
+    return res;
+}
+
+ll n;
+
 int main()
 {
     FASTIO
+    while(cin>>n)
+    {
+        if(n==0)
+            break;
+        if(n==1)
+            cout<<"0"<<endl;
+        else
+            cout<<fi(n)<<endl;
+    }
     return 0;
 }

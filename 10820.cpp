@@ -24,9 +24,40 @@ typedef pair<ll,ll> pl;
 #define sendl           " \n"
 
 const int mod = 1000000007;
+const int M = 50005;
+int phi[M], ans[M];
+
+void init()
+{
+    FOR(i, 1, M)
+        phi[i] = i;
+    FOR(i, 2, M)
+        if(phi[i]==i)
+        {
+            for(int j=2*i; j<M; j+=i)
+                phi[j] -= phi[j]/i;
+        }
+    FOR(i, 2, M)
+        if(phi[i]==i)
+            phi[i] = i-1;
+    FOR(i, 1, M)
+        ans[i] += ans[i-1]+phi[i];
+    FOR(i, 1, M)
+        ans[i] = 2*ans[i]-1;
+}
+
+int n;
 
 int main()
 {
     FASTIO
+    init();
+    while(cin>>n)
+    {
+        if(n==0)
+            break;
+        assert(n<M);
+        cout<<ans[n]<<endl;
+    }
     return 0;
 }
