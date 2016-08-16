@@ -43,32 +43,38 @@ int main()
     {
       if((c+s+q)==0)
         break;
+      if(ca)
+        cout<<endl;
       ca++;
       cout<<"Case #"<<ca<<endl;
       REP(i, 105)
         REP(j, 105)
-          dist[i][j] = 99999;
+          dist[i][j] = 0xffffff;
       REP(i, s)
       {
         cin>>a>>b>>w;
         //graph[a].pb(pii(b, w));
-        dist[a][b] = w;
+        dist[a][b] = min(dist[a][b], w);
+        dist[b][a] = dist[a][b];
       }
-      REP(i, c+1)
+      /*REP(i, c+1)
         REP(j, c+1)
-          cout<<dist[i][j]<<sendl[j==c];
+          cout<<dist[i][j]<<sendl[j==c];*/
       REP(k, c+1)
         REP(i, c+1)
           REP(j, c+1)
-            dist[i][j] = min(dist[i][j], min(dist[i][k],dist[k][j]));
-      REP(i, c+1)
+            dist[i][j] = min(dist[i][j], max(dist[i][k],dist[k][j]));
+      /*REP(i, c+1)
         REP(j, c+1)
-          cout<<dist[i][j]<<sendl[j==c];
+          cout<<dist[i][j]<<sendl[j==c];*/
       REP(i, q)
       {
         cin>>a>>b;
-        cout<<a<<" "<<b<<" ";
-        cout<<dist[a][b]<<endl;
+        //cout<<a<<" "<<b<<" ";
+        if(dist[a][b]==0xffffff)
+          cout<<"no path\n";
+        else
+          cout<<dist[a][b]<<endl;
       }
     }
     return 0;
