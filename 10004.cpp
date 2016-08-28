@@ -1,9 +1,9 @@
 /*
 	Swamy Saranam
 
-	Date	: 25/07/2016 22:42:13
+	Date	: 27/08/2016 16:48:10
 	Author	: Krishna Mohan A M
-	Problem	: 10930 - A-Sequence
+	Problem	: 10004 	Bicoloring
 	Status	:
 */
 #include <bits/stdc++.h>
@@ -32,56 +32,60 @@ typedef pair<ll,ll> pl;
 #define	endl			"\n"
 
 const int mod = 1000000007;
-int d, tmp;
-vi dat, act;
-bitset<2500> chk;
+int n, e;
+vi graph[205];
+bitset<205> isVisited;
+int color[205], a, b;
 
 bool solve()
 {
-	REP(i, d)
-		FOR(j, i+1, d)
-			if(dat[j]<dat[i])
-				return false;
-	chk[0]=1;
-	REP(j, d)
+	//Using BFS
+	memset(color, -1, sizeof(color));
+	color[0] = 0;
+	queue<int> q;
+	q.push(0);
+	while(!q.empty())
 	{
-		if(chk[dat[j]])
-			return false;
-		for(int i=1001; i>=0; i--)
+		int curr = q.front();
+		q.pop();
+		//cout<<"Curr: "<<curr<<endl;
+		int c = color[curr];
+		for(int i=0; i<graph[curr].size();i++)
 		{
-			if(chk[i])
-				chk[i+dat[j]] = 1;
+			/*if(curr==2)
+				cout<<graph[curr][i]<<" "<<color[graph[curr][i]]<<endl;*/
+			if(color[graph[curr][i]] == -1)
+			{
+				color[graph[curr][i]] = !c;
+				q.push(graph[curr][i]);
+			}
+			else if(color[graph[curr][i]]==c)
+				return false;
 		}
 	}
-	/*REP(i, 15)
-		cout<<chk[i]<<" ";
-	cout<<endl;*/
 	return true;
 }
 
 int main()
 {
     FASTIO
-    int ca = 0;
-    while(cin>>d)
+    while(cin>>n)
     {
-    	ca++;
-    	chk.reset();
-    	dat.clear();
-    	act.clear();
-    	REP(i, d)
-    	{
-    		cin>>tmp;
-    		dat.pb(tmp);
-    		act.pb(tmp);
-    	}
-    	cout<<"Case #"<<ca<<": ";
-    	REP(i, d)
-    		cout<<act[i]<<" \n"[i==d-1];
-    	if(solve())
-    		cout<<"This is an A-sequence."<<endl;
+    	if(n==0)
+    		break;
+		cin>>e;
+		REP(i, 205)
+			graph[i].clear();
+		REP(i, e)
+		{
+			cin>>a>>b;
+			graph[a].pb(b);
+			graph[b].pb(a);
+		}
+		if(solve())
+			cout<<"BICOLORABLE."<<endl;
 		else
-			cout<<"This is not an A-sequence."<<endl;
+			cout<<"NOT BICOLORABLE."<<endl;
     }
     return 0;
 }

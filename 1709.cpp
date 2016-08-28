@@ -1,9 +1,9 @@
 /*
 	Swamy Saranam
 
-	Date	: 25/07/2016 22:42:13
+	Date	: 27/08/2016 17:03:17
 	Author	: Krishna Mohan A M
-	Problem	: 10930 - A-Sequence
+	Problem	: 1709 	Amalgamated Artichokes
 	Status	:
 */
 #include <bits/stdc++.h>
@@ -32,56 +32,26 @@ typedef pair<ll,ll> pl;
 #define	endl			"\n"
 
 const int mod = 1000000007;
-int d, tmp;
-vi dat, act;
-bitset<2500> chk;
-
-bool solve()
-{
-	REP(i, d)
-		FOR(j, i+1, d)
-			if(dat[j]<dat[i])
-				return false;
-	chk[0]=1;
-	REP(j, d)
-	{
-		if(chk[dat[j]])
-			return false;
-		for(int i=1001; i>=0; i--)
-		{
-			if(chk[i])
-				chk[i+dat[j]] = 1;
-		}
-	}
-	/*REP(i, 15)
-		cout<<chk[i]<<" ";
-	cout<<endl;*/
-	return true;
-}
+int p, a, b, c, d, n, sz;
+double ans, currMax;
 
 int main()
 {
     FASTIO
-    int ca = 0;
-    while(cin>>d)
+    while(cin>>p>>a>>b>>c>>d>>n)
     {
-    	ca++;
-    	chk.reset();
-    	dat.clear();
-    	act.clear();
-    	REP(i, d)
+    	ans = 0;
+    	currMax = p*(sin(a+b)+cos(c+d)+2);
+    	ans = 0;
+    	FOR(i, 2, n+1)
     	{
-    		cin>>tmp;
-    		dat.pb(tmp);
-    		act.pb(tmp);
-    	}
-    	cout<<"Case #"<<ca<<": ";
-    	REP(i, d)
-    		cout<<act[i]<<" \n"[i==d-1];
-    	if(solve())
-    		cout<<"This is an A-sequence."<<endl;
-		else
-			cout<<"This is not an A-sequence."<<endl;
+    		double tmp = p*(sin(a*i+b)+cos(c*i+d)+2);
+    		if(tmp < currMax)
+				ans = max(ans, (currMax - tmp));
+			else
+				currMax = tmp;
+		}
+		cout<<setprecision(6)<<fixed<<ans<<endl;
     }
     return 0;
 }

@@ -1,9 +1,9 @@
 /*
 	Swamy Saranam
 
-	Date	: 25/07/2016 22:42:13
+	Date	: 27/08/2016 16:57:36
 	Author	: Krishna Mohan A M
-	Problem	: 10930 - A-Sequence
+	Problem	: 10408 	Farey sequences
 	Status	:
 */
 #include <bits/stdc++.h>
@@ -32,56 +32,32 @@ typedef pair<ll,ll> pl;
 #define	endl			"\n"
 
 const int mod = 1000000007;
-int d, tmp;
-vi dat, act;
-bitset<2500> chk;
-
-bool solve()
-{
-	REP(i, d)
-		FOR(j, i+1, d)
-			if(dat[j]<dat[i])
-				return false;
-	chk[0]=1;
-	REP(j, d)
-	{
-		if(chk[dat[j]])
-			return false;
-		for(int i=1001; i>=0; i--)
-		{
-			if(chk[i])
-				chk[i+dat[j]] = 1;
-		}
-	}
-	/*REP(i, 15)
-		cout<<chk[i]<<" ";
-	cout<<endl;*/
-	return true;
-}
+int n, k, tmp, a, b, c, d, cnt;
 
 int main()
 {
     FASTIO
-    int ca = 0;
-    while(cin>>d)
+    while(cin>>n>>k)
     {
-    	ca++;
-    	chk.reset();
-    	dat.clear();
-    	act.clear();
-    	REP(i, d)
-    	{
-    		cin>>tmp;
-    		dat.pb(tmp);
-    		act.pb(tmp);
-    	}
-    	cout<<"Case #"<<ca<<": ";
-    	REP(i, d)
-    		cout<<act[i]<<" \n"[i==d-1];
-    	if(solve())
-    		cout<<"This is an A-sequence."<<endl;
-		else
-			cout<<"This is not an A-sequence."<<endl;
+	    a = 0;
+	    b = 1;
+	    c = 1;
+	    d = n;
+	    cnt = 0;
+	    //cout<<a<<"/"<<b<<endl;
+	    while(c<=n && cnt<k)
+	    {
+	    	tmp = (n+b)/d;
+	    	int ta = a;
+	    	int tb = b;
+	    	a = c;
+	    	b = d;
+	    	c = tmp*c - ta;
+	    	d = tmp*d - tb;
+	    	//cout<<a<<"/"<<b<<endl;
+	    	cnt++;
+	    }
+	    cout<<a<<"/"<<b<<endl;
     }
     return 0;
 }
